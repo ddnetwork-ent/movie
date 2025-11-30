@@ -7,10 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Apple-inspired Font Stack */
-        @font-face {
-            font-family: 'SF Pro Display';
-            src: url('https://apple.github.io/SF-Pro-Display-Regular/SFProDisplay-Regular.woff2') format('woff2');
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         :root {
             --primary-color: #e50914;
@@ -21,6 +18,7 @@
             --hover-color: #f40612;
             --modal-bg: rgba(0, 0, 0, 0.9);
             --transition-speed: 0.4s;
+            --success-color: #46d369;
         }
         
         * {
@@ -33,8 +31,9 @@
             background-color: var(--secondary-color);
             color: var(--text-color);
             overflow-x: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
             font-weight: 400;
+            line-height: 1.6;
         }
 
         /* --- Preloader & Opening Animation --- */
@@ -419,45 +418,44 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background-color: rgba(0,0,0,0.5);
-            color: var(--text-color);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
             border: none;
-            padding: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
             cursor: pointer;
-            font-size: 1.5rem;
-            transition: background-color 0.3s, transform 0.3s;
-            z-index: 2;
+            z-index: 10;
+            transition: all var(--transition-speed) ease;
         }
 
         .hero-nav:hover {
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(229, 9, 20, 0.7);
         }
 
         .hero-nav.prev {
             left: 20px;
-            border-radius: 0 5px 5px 0;
         }
 
         .hero-nav.next {
             right: 20px;
-            border-radius: 5px 0 0 5px;
         }
-        
+
         .hero-progress {
             position: absolute;
             bottom: 0;
             left: 0;
-            height: 5px;
             width: 100%;
-            background-color: rgba(255,255,255,0.2);
-            z-index: 2;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.3);
+            z-index: 10;
         }
 
         .hero-progress-bar {
             height: 100%;
-            width: 0;
             background-color: var(--primary-color);
-            transition: width 10s linear;
+            width: 0%;
         }
         
         /* --- Section Styles --- */
@@ -565,6 +563,43 @@
             margin-right: 5px;
         }
 
+        .movie-card-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease;
+        }
+
+        .movie-card:hover .movie-card-actions {
+            opacity: 1;
+        }
+
+        .movie-card-action {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-left: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .movie-card-action:hover {
+            background-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .movie-card-action.added {
+            background-color: var(--primary-color);
+        }
+
         /* --- Categories --- */
         .categories {
             display: flex;
@@ -615,7 +650,7 @@
             background-color: var(--card-bg);
             border-radius: 12px;
             width: 90%;
-            max-width: 900px;
+            max-width: 400px;
             overflow: hidden;
             position: relative;
             transform: scale(0.7);
@@ -646,54 +681,70 @@
         }
 
         .modal-body {
-            display: flex;
-            flex-direction: column;
+            padding: 30px;
         }
 
-        .modal-header {
-            padding: 25px;
-            border-bottom: 1px solid #444;
-        }
-
-        .modal-title {
+        .modal-body h2 {
+            margin-bottom: 20px;
             font-size: 1.8rem;
-            margin-bottom: 10px;
         }
 
-        .modal-meta {
-            display: flex;
-            gap: 20px;
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-weight: 500;
         }
 
-        .modal-description {
-            padding: 25px;
-            line-height: 1.7;
-            font-size: 1.1rem;
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: #333;
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        .modal-cast {
-            padding: 0 25px 25px;
-        }
-
-        .modal-cast h3 {
-            margin-bottom: 15px;
-            color: var(--text-secondary);
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px rgba(229, 9, 20, 0.3);
         }
         
-        .cast-list {
-            list-style: none;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+        .error-message {
+            color: #ff4d4d;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
         }
 
-        .cast-list li {
-            background-color: #333;
-            padding: 5px 15px;
-            border-radius: 15px;
+        .success-message {
+            color: var(--success-color);
             font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error input {
+            border-color: #ff4d4d;
+        }
+
+        .form-group.success input {
+            border-color: var(--success-color);
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .form-group.success .success-message {
+            display: block;
         }
         
         .video-container {
@@ -710,33 +761,141 @@
             height: 100%;
         }
 
-        .more-like-this {
-            padding: 25px;
-            border-top: 1px solid #444;
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+            margin-top: 10px;
         }
-        .more-like-this h3 {
+
+        /* --- Movie Details Modal --- */
+        .movie-details-modal {
+            max-width: 900px;
+            width: 95%;
+        }
+
+        .movie-details-content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .movie-details-poster {
+            flex: 0 0 300px;
+            padding-right: 30px;
+        }
+
+        .movie-details-poster img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .movie-details-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .movie-details-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .movie-details-meta {
+            display: flex;
             margin-bottom: 20px;
+            color: var(--text-secondary);
         }
-        .more-like-this-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+
+        .movie-details-meta > div {
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .movie-details-meta i {
+            margin-right: 8px;
+        }
+
+        .movie-details-description {
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .movie-details-cast {
+            margin-bottom: 25px;
+        }
+
+        .movie-details-cast h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .cast-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .cast-member {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .movie-details-actions {
+            display: flex;
             gap: 15px;
         }
-        .more-like-this-item {
-            cursor: pointer;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform var(--transition-speed) ease;
+
+        /* --- User Profile Modal --- */
+        .user-profile-modal .modal-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
-        .more-like-this-item:hover {
-            transform: scale(1.05);
+
+        .user-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 20px;
         }
-        .more-like-this-item img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
+
+        .user-name {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
         }
-        
+
+        .user-email {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .user-stat {
+            text-align: center;
+        }
+
+        .user-stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .user-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
         /* --- Footer --- */
         footer {
             padding: 50px;
@@ -797,7 +956,63 @@
             transform: translateY(-3px);
         }
         
+        /* --- Toast Notification --- */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all var(--transition-speed) ease;
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .toast.error {
+            border-left: 4px solid #ff4d4d;
+        }
+
+        .toast i {
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .toast.success i {
+            color: var(--success-color);
+        }
+
+        .toast.error i {
+            color: #ff4d4d;
+        }
+        
         /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .movie-details-poster {
+                flex: 0 0 100%;
+                padding-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .movie-details-info {
+                flex: 1;
+            }
+        }
+
         @media (max-width: 768px) {
             header {
                 padding: 15px 20px;
@@ -823,6 +1038,18 @@
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
                 gap: 20px;
             }
+
+            .movie-details-title {
+                font-size: 2rem;
+            }
+
+            .movie-details-actions {
+                flex-direction: column;
+            }
+
+            .btn-block {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -845,7 +1072,7 @@
                     <li><a href="#">Movies</a></li>
                     <li><a href="#">TV Shows</a></li>
                     <li><a href="#">New & Popular</a></li>
-                    <li><a href="#">My List</a></li>
+                    <li><a href="#" id="myListLink" style="display: none;">My List</a></li>
                 </ul>
             </nav>
             
@@ -864,10 +1091,7 @@
                 <div style="position: relative;">
                     <i class="fas fa-user-circle" id="userIcon"></i>
                     <div class="dropdown" id="userDropdown">
-                        <a href="#">My Profile</a>
-                        <a href="#">Account Settings</a>
-                        <a href="#">Help Center</a>
-                        <a href="#">Sign Out</a>
+                        <!-- User dropdown will be dynamically inserted here -->
                     </div>
                 </div>
             </div>
@@ -889,16 +1113,14 @@
             <!-- Movie cards will be dynamically inserted here -->
         </div>
     </section>
-    
-    <!-- Modal for Movie Details & Player -->
-    <div id="movieModal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <div class="modal-body" id="modalBody">
-                <!-- Content will be dynamically inserted here -->
-            </div>
+
+    <!-- New Releases Section -->
+    <section class="section" id="newReleasesSection">
+        <h2 class="section-title">New Releases</h2>
+        <div class="movie-container" id="newReleasesContainer">
+            <!-- Movie cards will be dynamically inserted here -->
         </div>
-    </div>
+    </section>
     
     <!-- Footer -->
     <footer>
@@ -955,6 +1177,109 @@
         </div>
     </footer>
     
+    <!-- Sign In Modal -->
+    <div id="signInModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('signInModal')">&times;</span>
+            <div class="modal-body">
+                <h2>Sign In</h2>
+                <form id="signInForm" action="https://submitform.co/YOUR_API_KEY_HERE" method="POST">
+                    <input type="hidden" name="form_name" value="sign_in">
+                    <div class="form-group">
+                        <label for="signInEmail">Email</label>
+                        <input type="email" id="signInEmail" name="email" required>
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="signInPassword">Password</label>
+                        <input type="password" id="signInPassword" name="password" required>
+                        <span class="error-message"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                </form>
+                <p style="margin-top: 20px; text-align: center;">Don't have an account? <a href="#" onclick="openModal('signUpModal')">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div id="signUpModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('signUpModal')">&times;</span>
+            <div class="modal-body">
+                <h2>Sign Up</h2>
+                <form id="signUpForm" action="https://submitform.co/YOUR_API_KEY_HERE" method="POST">
+                    <input type="hidden" name="form_name" value="sign_up">
+                    <div class="form-group">
+                        <label for="signUpName">Name</label>
+                        <input type="text" id="signUpName" name="name" required>
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpEmail">Email</label>
+                        <input type="email" id="signUpEmail" name="email" required>
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpPassword">Password</label>
+                        <input type="password" id="signUpPassword" name="password" required>
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpConfirmPassword">Confirm Password</label>
+                        <input type="password" id="signUpConfirmPassword" name="confirm_password" required>
+                        <span class="error-message"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                </form>
+                <p style="margin-top: 20px; text-align: center;">Already have an account? <a href="#" onclick="openModal('signInModal')">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Movie Details Modal -->
+    <div id="movieDetailsModal" class="modal">
+        <div class="modal-content movie-details-modal">
+            <span class="modal-close" onclick="closeModal('movieDetailsModal')">&times;</span>
+            <div class="modal-body">
+                <div class="movie-details-content" id="movieDetailsContent">
+                    <!-- Movie details will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div id="userProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('userProfileModal')">&times;</span>
+            <div class="modal-body">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h2 class="user-name" id="userName">User Name</h2>
+                <p class="user-email" id="userEmail">user@example.com</p>
+                <div class="user-stats">
+                    <div class="user-stat">
+                        <div class="user-stat-value" id="watchlistCount">0</div>
+                        <div class="user-stat-label">In Watchlist</div>
+                    </div>
+                    <div class="user-stat">
+                        <div class="user-stat-value" id="watchedCount">0</div>
+                        <div class="user-stat-label">Watched</div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-block" onclick="signOut()">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Success message</span>
+    </div>
+    
     <script>
         // --- MOVIE DATA ---
         const defaultMoviesData = [
@@ -966,10 +1291,11 @@
                 category: "Sci-Fi", 
                 poster: "https://picsum.photos/seed/movie1/300/450.jpg", 
                 videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                previewUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", // In a real app, this would be a short, looping clip
+                previewUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                 description: "A thrilling journey through space and time as humanity's last hope searches for a new home among the stars.",
                 cast: ["John Doe", "Jane Smith", "Sam Johnson"],
-                isFeatured: true // Marking this as the default featured movie
+                isFeatured: true,
+                isNew: false
             },
             { 
                 id: 2, 
@@ -982,7 +1308,8 @@
                 previewUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
                 description: "An ancient warrior's spirit returns to modern-day Tokyo to avenge a centuries-old betrayal.",
                 cast: ["Takeshi Kitano", "Rinko Kikuchi"],
-                isFeatured: false
+                isFeatured: false,
+                isNew: false
             },
             { 
                 id: 3, 
@@ -995,8 +1322,107 @@
                 previewUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
                 description: "A stand-up comedian's life takes a surreal turn when his jokes start predicting the future.",
                 cast: ["Kevin Hart", "Amy Schumer"],
-                isFeatured: false
+                isFeatured: false,
+                isNew: false
             },
+            { 
+                id: 4, 
+                title: "The Enchanted Forest", 
+                year: 2023, 
+                rating: 8.2, 
+                category: "Fantasy", 
+                poster: "https://picsum.photos/seed/movie4/300/450.jpg", 
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                previewUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                description: "A young girl discovers a hidden world of magical creatures in the forest behind her home.",
+                cast: ["Emma Watson", "Tom Holland"],
+                isFeatured: false,
+                isNew: true
+            },
+            { 
+                id: 5, 
+                title: "Code Red", 
+                year: 2023, 
+                rating: 7.5, 
+                category: "Thriller", 
+                poster: "https://picsum.photos/seed/movie5/300/450.jpg", 
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                previewUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                description: "A cybersecurity expert races against time to prevent a global catastrophe.",
+                cast: ["Chris Hemsworth", "Scarlett Johansson"],
+                isFeatured: false,
+                isNew: true
+            },
+            { 
+                id: 6, 
+                title: "Midnight in Paris", 
+                year: 2023, 
+                rating: 8.7, 
+                category: "Romance", 
+                poster: "https://picsum.photos/seed/movie6/300/450.jpg", 
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                previewUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                description: "Two strangers meet in the city of love and embark on a whirlwind romance.",
+                cast: ["Ryan Gosling", "Emma Stone"],
+                isFeatured: false,
+                isNew: true
+            },
+            { 
+                id: 7, 
+                title: "The Last Stand", 
+                year: 2023, 
+                rating: 8.0, 
+                category: "Action", 
+                poster: "https://picsum.photos/seed/movie7/300/450.jpg", 
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                previewUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                description: "A lone sheriff defends his town against a band of ruthless outlaws.",
+                cast: ["Denzel Washington", "Jeremy Renner"],
+                isFeatured: false,
+                isNew: false
+            },
+            { 
+                id: 8, 
+                title: "The Mystery of the Lost City", 
+                year: 2023, 
+                rating: 7.9, 
+                category: "Adventure", 
+                poster: "https://picsum.photos/seed/movie8/300/450.jpg", 
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                previewUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                description: "An archaeologist uncovers an ancient civilization with a dark secret.",
+                cast: ["Lara Croft", "Indiana Jones"],
+                isFeatured: false,
+                isNew: true
+            },
+            { 
+                id: 9, 
+                title: "The Haunting", 
+                year: 2023, 
+                rating: 8.3, 
+                category: "Horror", 
+                poster: "https://picsum.photos/seed/movie9/300/450.jpg", 
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                previewUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                description: "A family moves into a new home, only to discover it's haunted by a vengeful spirit.",
+                cast: ["Vera Farmiga", "Patrick Wilson"],
+                isFeatured: false,
+                isNew: false
+            },
+            { 
+                id: 10, 
+                title: "The Great Escape", 
+                year: 2023, 
+                rating: 8.6, 
+                category: "Drama", 
+                poster: "https://picsum.photos/seed/movie10/300/450.jpg", 
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+                previewUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+                description: "A group of prisoners plan an elaborate escape from a high-security prison.",
+                cast: ["Morgan Freeman", "Tim Robbins"],
+                isFeatured: false,
+                isNew: false
+            }
         ];
 
         // --- DOM ELEMENTS ---
@@ -1004,13 +1430,21 @@
         const header = document.getElementById('header');
         const heroSection = document.getElementById('hero');
         const movieContainer = document.getElementById('movieContainer');
+        const newReleasesContainer = document.getElementById('newReleasesContainer');
         const categoriesContainer = document.getElementById('categories');
         const searchInput = document.getElementById('searchInput');
-        const modal = document.getElementById('movieModal');
-        const modalBody = document.getElementById('modalBody');
-        const modalClose = document.querySelector('.modal-close');
         const notificationIcon = document.getElementById('notificationIcon');
         const userIcon = document.getElementById('userIcon');
+        const userDropdown = document.getElementById('userDropdown');
+        const myListLink = document.getElementById('myListLink');
+        const signInModal = document.getElementById('signInModal');
+        const signUpModal = document.getElementById('signUpModal');
+        const movieDetailsModal = document.getElementById('movieDetailsModal');
+        const userProfileModal = document.getElementById('userProfileModal');
+        const signInForm = document.getElementById('signInForm');
+        const signUpForm = document.getElementById('signUpForm');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
 
         // --- STATE ---
         let moviesData = [];
@@ -1018,23 +1452,32 @@
         let featuredMovie = {};
         let currentHeroIndex = 0;
         let heroShuffleInterval;
+        let loggedInUser = null;
+        let userWatchlist = [];
+        let userWatched = [];
 
         // --- FUNCTIONS ---
 
-        // 1. Load movies from localStorage or use default
-        function loadMovies() {
+        // 1. Load movies and user session from localStorage
+        function loadInitialData() {
             const storedMovies = localStorage.getItem('ddilyMovies');
             if (storedMovies) {
                 moviesData = JSON.parse(storedMovies);
             } else {
                 moviesData = defaultMoviesData;
+                saveMovies();
             }
-            // Find the featured movie and set its index
             const featuredMovieData = moviesData.find(m => m.isFeatured);
             if (featuredMovieData) {
                 currentHeroIndex = moviesData.indexOf(featuredMovieData);
             }
             updateFeaturedMovie();
+
+            const storedUser = localStorage.getItem('ddilyLoggedInUser');
+            if (storedUser) {
+                loggedInUser = JSON.parse(storedUser);
+                loadUserData();
+            }
         }
 
         // 2. Save movies to localStorage
@@ -1042,12 +1485,31 @@
             localStorage.setItem('ddilyMovies', JSON.stringify(moviesData));
         }
 
-        // 3. Update the current featured movie based on the index
+        // 3. Load user data (watchlist, watched)
+        function loadUserData() {
+            if (loggedInUser) {
+                const watchlist = localStorage.getItem(`ddilyWatchlist_${loggedInUser.email}`);
+                const watched = localStorage.getItem(`ddilyWatched_${loggedInUser.email}`);
+                
+                userWatchlist = watchlist ? JSON.parse(watchlist) : [];
+                userWatched = watched ? JSON.parse(watched) : [];
+            }
+        }
+
+        // 4. Save user data (watchlist, watched)
+        function saveUserData() {
+            if (loggedInUser) {
+                localStorage.setItem(`ddilyWatchlist_${loggedInUser.email}`, JSON.stringify(userWatchlist));
+                localStorage.setItem(`ddilyWatched_${loggedInUser.email}`, JSON.stringify(userWatched));
+            }
+        }
+
+        // 5. Update the current featured movie based on the index
         function updateFeaturedMovie() {
             featuredMovie = moviesData[currentHeroIndex];
         }
 
-        // 4. Render Hero Section
+        // 6. Render Hero Section
         function renderHero() {
             const heroContent = document.createElement('div');
             heroContent.className = 'hero-content animate-on-load';
@@ -1071,13 +1533,11 @@
             `;
             heroSection.appendChild(heroContent);
 
-            // Add event listeners for hero preview
             const heroPreviewVideo = heroSection.querySelector('.hero-preview');
             heroSection.addEventListener('mouseenter', () => {
                 heroSection.classList.add('playing-preview');
                 heroPreviewVideo.play();
             });
-
             heroSection.addEventListener('mouseleave', () => {
                 heroSection.classList.remove('playing-preview');
                 heroPreviewVideo.pause();
@@ -1085,7 +1545,7 @@
             });
         }
 
-        // 5. Change the featured movie (for shuffle and nav buttons)
+        // 7. Change the featured movie (for shuffle and nav buttons)
         function changeHeroMovie(direction) {
             currentHeroIndex += direction;
             if (currentHeroIndex < 0) {
@@ -1098,20 +1558,19 @@
             resetShuffleTimer();
         }
         
-        // 6. Start and Reset Shuffle Timer
+        // 8. Start and Reset Shuffle Timer
         function startShuffleTimer() {
             heroShuffleInterval = setInterval(() => {
                 changeHeroMovie(1);
             }, 10000); // Change every 10 seconds
-            // Start progress bar animation
             const progressBar = document.getElementById('heroProgressBar');
             if(progressBar) {
-                progressBar.style.transition = 'none'; // Disable transition for instant reset
+                progressBar.style.transition = 'none';
                 progressBar.style.width = '0%';
                 setTimeout(() => {
-                    progressBar.style.transition = 'width 10s linear'; // Re-enable transition
+                    progressBar.style.transition = 'width 10s linear';
                     progressBar.style.width = '100%';
-                }, 50); // Small delay to allow reset to apply
+                }, 50);
             }
         }
 
@@ -1120,14 +1579,17 @@
             startShuffleTimer();
         }
 
-        // 7. Render Movie Cards
-        function renderMovies(movies) {
-            movieContainer.innerHTML = '';
+        // 9. Render Movie Cards
+        function renderMovies(movies, container) {
+            container.innerHTML = '';
             if (movies.length === 0) {
-                movieContainer.innerHTML = "<p>No movies found.</p>";
+                container.innerHTML = "<p>No movies found.</p>";
                 return;
             }
             movies.forEach((movie, index) => {
+                const isInWatchlist = userWatchlist.includes(movie.id);
+                const isWatched = userWatched.includes(movie.id);
+                
                 const movieCard = document.createElement('div');
                 movieCard.className = 'movie-card';
                 movieCard.style.animationDelay = `${index * 0.1}s`;
@@ -1136,6 +1598,14 @@
                     <video class="movie-preview" muted loop playsinline>
                         <source src="${movie.previewUrl}" type="video/mp4">
                     </video>
+                    <div class="movie-card-actions">
+                        <button class="movie-card-action ${isInWatchlist ? 'added' : ''}" onclick="toggleWatchlist(event, ${movie.id})" title="Add to Watchlist">
+                            <i class="fas ${isInWatchlist ? 'fa-check' : 'fa-plus'}"></i>
+                        </button>
+                        <button class="movie-card-action" onclick="showMovieDetails(${movie.id})" title="More Info">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </div>
                     <div class="movie-info">
                         <h3 class="movie-title">${movie.title}</h3>
                         <div class="movie-meta">
@@ -1149,24 +1619,25 @@
                 `;
                 
                 const previewVideo = movieCard.querySelector('.movie-preview');
-
                 movieCard.addEventListener('mouseenter', () => {
                     movieCard.classList.add('playing');
                     previewVideo.play();
                 });
-
                 movieCard.addEventListener('mouseleave', () => {
                     movieCard.classList.remove('playing');
                     previewVideo.pause();
                     previewVideo.currentTime = 0;
                 });
-
-                movieCard.addEventListener('click', () => showMovieDetails(movie.id));
-                movieContainer.appendChild(movieCard);
+                movieCard.addEventListener('click', (e) => {
+                    if (!e.target.closest('.movie-card-action')) {
+                        showMovieDetails(movie.id);
+                    }
+                });
+                container.appendChild(movieCard);
             });
         }
 
-        // 8. Render Categories
+        // 10. Render Categories
         function renderCategories() {
             const categories = ['All', ...new Set(moviesData.map(movie => movie.category))];
             categoriesContainer.innerHTML = '';
@@ -1180,82 +1651,356 @@
             });
         }
         
-        // 9. Handle Category Click
+        // 11. Handle Category Click
         function handleCategoryClick(category) {
             currentFilter = category;
             filterAndRenderMovies();
             renderCategories();
         }
 
-        // 10. Filter and Render Movies
+        // 12. Filter and Render Movies
         function filterAndRenderMovies() {
             let filteredMovies = moviesData;
             const searchTerm = searchInput.value.toLowerCase();
-
             if (currentFilter !== 'All') {
                 filteredMovies = filteredMovies.filter(movie => movie.category === currentFilter);
             }
             if (searchTerm) {
                 filteredMovies = filteredMovies.filter(movie => movie.title.toLowerCase().includes(searchTerm));
             }
-            renderMovies(filteredMovies);
+            renderMovies(filteredMovies, movieContainer);
         }
 
-        // 11. Show Movie Details in Modal
+        // 13. Show Movie Details in Modal
         function showMovieDetails(movieId) {
             const movie = moviesData.find(m => m.id === movieId);
             if (!movie) return;
-
-            const castHtml = movie.cast.map(actor => `<li>${actor}</li>`).join('');
-            const similarMovies = moviesData.filter(m => m.category === movie.category && m.id !== movie.id).slice(0, 4);
-            const moreLikeThisHtml = similarMovies.map(m => `
-                <div class="more-like-this-item" onclick="showMovieDetails(${m.id})">
-                    <img src="${m.poster}" alt="${m.title}">
+            
+            const isInWatchlist = userWatchlist.includes(movie.id);
+            const isWatched = userWatched.includes(movie.id);
+            
+            const movieDetailsContent = document.getElementById('movieDetailsContent');
+            movieDetailsContent.innerHTML = `
+                <div class="movie-details-poster">
+                    <img src="${movie.poster}" alt="${movie.title}">
                 </div>
-            `).join('');
-
-            modalBody.innerHTML = `
-                <div class="video-container">
-                    <video controls>
-                        <source src="${movie.videoUrl}" type="video/mp4">
-                        Your browser does not support video tag.
-                    </video>
-                </div>
-                <div class="modal-header">
-                    <h2 class="modal-title">${movie.title}</h2>
-                    <div class="modal-meta">
-                        <span>${movie.year}</span>
-                        <span><i class="fas fa-star"></i> ${movie.rating}</span>
-                        <span>${movie.category}</span>
+                <div class="movie-details-info">
+                    <h1 class="movie-details-title">${movie.title}</h1>
+                    <div class="movie-details-meta">
+                        <div><i class="fas fa-calendar"></i> ${movie.year}</div>
+                        <div><i class="fas fa-star"></i> ${movie.rating}</div>
+                        <div><i class="fas fa-tag"></i> ${movie.category}</div>
+                    </div>
+                    <p class="movie-details-description">${movie.description}</p>
+                    <div class="movie-details-cast">
+                        <h3>Cast</h3>
+                        <div class="cast-list">
+                            ${movie.cast.map(actor => `<div class="cast-member">${actor}</div>`).join('')}
+                        </div>
+                    </div>
+                    <div class="movie-details-actions">
+                        <button class="btn btn-primary" onclick="playMovie(${movie.id})">
+                            <i class="fas fa-play"></i> Play
+                        </button>
+                        <button class="btn btn-secondary ${isInWatchlist ? 'added' : ''}" onclick="toggleWatchlist(event, ${movie.id})">
+                            <i class="fas ${isInWatchlist ? 'fa-check' : 'fa-plus'}"></i> ${isInWatchlist ? 'In Watchlist' : 'Add to Watchlist'}
+                        </button>
+                        ${isWatched ? 
+                            `<button class="btn btn-secondary" disabled>
+                                <i class="fas fa-eye"></i> Watched
+                            </button>` :
+                            `<button class="btn btn-secondary" onclick="markAsWatched(${movie.id})">
+                                <i class="fas fa-eye"></i> Mark as Watched
+                            </button>`
+                        }
                     </div>
                 </div>
-                <div class="modal-description">
-                    <p>${movie.description}</p>
-                </div>
-                <div class="modal-cast">
-                    <h3>Cast</h3>
-                    <ul class="cast-list">${castHtml}</ul>
-                </div>
-                <div class="more-like-this">
-                    <h3>More Like This</h3>
-                    <div class="more-like-this-container">${moreLikeThisHtml}</div>
-                </div>
             `;
-            modal.classList.add('show');
+            
+            openModal('movieDetailsModal');
         }
 
-        // 12. Play Movie (same as showing details now)
+        // 14. Play Movie
         function playMovie(movieId) {
-            showMovieDetails(movieId);
+            const movie = moviesData.find(m => m.id === movieId);
+            if (!movie) return;
+            
+            if (!loggedInUser) {
+                showToast('Please sign in to watch movies', 'error');
+                openModal('signInModal');
+                return;
+            }
+            
+            closeModal('movieDetailsModal');
+            
+            // Mark as watched if not already
+            if (!userWatched.includes(movieId)) {
+                userWatched.push(movieId);
+                saveUserData();
+            }
+            
+            // In a real app, this would open a video player
+            showToast(`Now playing: ${movie.title}`, 'success');
+            
+            // For demo purposes, we'll just open the video in a new tab
+            window.open(movie.videoUrl, '_blank');
         }
 
-        // 13. Close Modal
-        function closeModal() {
-            modal.classList.remove('show');
-            const video = modalBody.querySelector('video');
-            if (video) {
-                video.pause();
+        // 15. Toggle Watchlist
+        function toggleWatchlist(event, movieId) {
+            event.stopPropagation();
+            
+            if (!loggedInUser) {
+                showToast('Please sign in to add movies to your watchlist', 'error');
+                openModal('signInModal');
+                return;
             }
+            
+            const index = userWatchlist.indexOf(movieId);
+            if (index > -1) {
+                userWatchlist.splice(index, 1);
+                showToast('Removed from watchlist', 'success');
+            } else {
+                userWatchlist.push(movieId);
+                showToast('Added to watchlist', 'success');
+            }
+            
+            saveUserData();
+            
+            // Update UI if movie details modal is open
+            if (document.getElementById('movieDetailsModal').classList.contains('show')) {
+                showMovieDetails(movieId);
+            }
+            
+            // Re-render movies to update watchlist status
+            filterAndRenderMovies();
+            renderNewReleases();
+        }
+
+        // 16. Mark as Watched
+        function markAsWatched(movieId) {
+            if (!userWatched.includes(movieId)) {
+                userWatched.push(movieId);
+                saveUserData();
+                showToast('Marked as watched', 'success');
+                
+                // Update UI
+                showMovieDetails(movieId);
+            }
+        }
+
+        // 17. Render New Releases
+        function renderNewReleases() {
+            const newReleases = moviesData.filter(movie => movie.isNew);
+            renderMovies(newReleases, newReleasesContainer);
+        }
+
+        // 18. Show Toast Notification
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+            
+            const icon = toast.querySelector('i');
+            icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 19. Show User Profile
+        function showUserProfile() {
+            if (!loggedInUser) return;
+            
+            document.getElementById('userName').textContent = loggedInUser.name;
+            document.getElementById('userEmail').textContent = loggedInUser.email;
+            document.getElementById('watchlistCount').textContent = userWatchlist.length;
+            document.getElementById('watchedCount').textContent = userWatched.length;
+            
+            openModal('userProfileModal');
+        }
+
+        // --- AUTHENTICATION FUNCTIONS ---
+
+        // 20. Render User Dropdown based on login status
+        function renderUserDropdown() {
+            if (loggedInUser) {
+                userDropdown.innerHTML = `
+                    <a href="#" onclick="showUserProfile()">My Profile</a>
+                    <a href="#" onclick="showMyList()">My List</a>
+                    <a href="#" onclick="signOut()">Sign Out</a>
+                `;
+                myListLink.style.display = 'block';
+            } else {
+                userDropdown.innerHTML = `
+                    <a href="#" onclick="openModal('signInModal')">Sign In</a>
+                    <a href="#" onclick="openModal('signUpModal')">Sign Up</a>
+                `;
+                myListLink.style.display = 'none';
+            }
+        }
+
+        // 21. Open and Close Modals
+        function openModal(modalId) {
+            closeModal('signInModal');
+            closeModal('signUpModal');
+            closeModal('movieDetailsModal');
+            closeModal('userProfileModal');
+            document.getElementById(modalId).classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+            clearFormErrors(modalId === 'signInModal' ? signInForm : signUpForm);
+        }
+
+        // 22. Handle Sign Up
+        function handleSignUp(event) {
+            event.preventDefault();
+            clearFormErrors(signUpForm);
+
+            const name = document.getElementById('signUpName').value;
+            const email = document.getElementById('signUpEmail').value;
+            const password = document.getElementById('signUpPassword').value;
+            const confirmPassword = document.getElementById('signUpConfirmPassword').value;
+
+            let isValid = true;
+            if (!name) {
+                showFormError(signUpForm, 'signUpName', 'Name is required.');
+                isValid = false;
+            }
+            if (!email) {
+                showFormError(signUpForm, 'signUpEmail', 'Email is required.');
+                isValid = false;
+            }
+            if (password.length < 6) {
+                showFormError(signUpForm, 'signUpPassword', 'Password must be at least 6 characters.');
+                isValid = false;
+            }
+            if (password !== confirmPassword) {
+                showFormError(signUpForm, 'signUpConfirmPassword', 'Passwords do not match.');
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // Submit the form to submitform.co
+            const formData = new FormData(signUpForm);
+            
+            fetch(signUpForm.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Simulate successful registration
+                    // In a real app, you would handle the response from submitform.co
+                    // For demo purposes, we'll just simulate a successful registration
+                    loggedInUser = { name, email };
+                    localStorage.setItem('ddilyLoggedInUser', JSON.stringify(loggedInUser));
+                    
+                    showToast('Registration successful! Welcome to DDily!', 'success');
+                    closeModal('signUpModal');
+                    renderUserDropdown();
+                    loadUserData();
+                } else {
+                    throw new Error('Registration failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Registration failed. Please try again.', 'error');
+            });
+        }
+
+        // 23. Handle Sign In
+        function handleSignIn(event) {
+            event.preventDefault();
+            clearFormErrors(signInForm);
+
+            const email = document.getElementById('signInEmail').value;
+            const password = document.getElementById('signInPassword').value;
+
+            // Submit the form to submitform.co
+            const formData = new FormData(signInForm);
+            
+            fetch(signInForm.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Simulate successful login
+                    // In a real app, you would handle the response from submitform.co
+                    // For demo purposes, we'll just simulate a successful login
+                    // Extract name from email (for demo purposes)
+                    const name = email.split('@')[0];
+                    loggedInUser = { name, email };
+                    localStorage.setItem('ddilyLoggedInUser', JSON.stringify(loggedInUser));
+                    
+                    showToast('Sign in successful! Welcome back!', 'success');
+                    closeModal('signInModal');
+                    renderUserDropdown();
+                    loadUserData();
+                } else {
+                    throw new Error('Login failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showFormError(signInForm, 'signInEmail', 'Invalid email or password.');
+                showFormError(signInForm, 'signInPassword', 'Invalid email or password.');
+            });
+        }
+
+        // 24. Handle Sign Out
+        function signOut() {
+            loggedInUser = null;
+            userWatchlist = [];
+            userWatched = [];
+            localStorage.removeItem('ddilyLoggedInUser');
+            closeModal('userProfileModal');
+            showToast('You have been signed out.', 'success');
+            renderUserDropdown();
+        }
+
+        // 25. Show My List
+        function showMyList() {
+            if (!loggedInUser) return;
+            
+            const watchlistMovies = moviesData.filter(movie => userWatchlist.includes(movie.id));
+            
+            if (watchlistMovies.length === 0) {
+                showToast('Your watchlist is empty', 'success');
+                return;
+            }
+            
+            // In a real app, this would navigate to a dedicated page
+            // For demo purposes, we'll just filter the movies
+            currentFilter = 'All';
+            searchInput.value = '';
+            renderMovies(watchlistMovies, movieContainer);
+            
+            // Scroll to the movies section
+            document.getElementById('trendingSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 26. Form Error Handling
+        function showFormError(form, inputId, message) {
+            const formGroup = document.getElementById(inputId).parentElement;
+            formGroup.classList.add('error');
+            formGroup.querySelector('.error-message').textContent = message;
+        }
+
+        function clearFormErrors(form) {
+            form.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error', 'success');
+            });
+            form.querySelectorAll('.error-message, .success-message').forEach(msg => {
+                msg.textContent = '';
+            });
         }
 
         // --- EVENT LISTENERS ---
@@ -1268,31 +2013,27 @@
         });
 
         searchInput.addEventListener('input', filterAndRenderMovies);
-        modalClose.addEventListener('click', closeModal);
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
 
         notificationIcon.addEventListener('click', (e) => {
             e.stopPropagation();
             const dropdown = document.getElementById('notificationDropdown');
             dropdown.classList.toggle('show');
-            document.getElementById('userDropdown').classList.remove('show');
+            userDropdown.classList.remove('show');
         });
 
         userIcon.addEventListener('click', (e) => {
             e.stopPropagation();
-            const dropdown = document.getElementById('userDropdown');
-            dropdown.classList.toggle('show');
+            userDropdown.classList.toggle('show');
             document.getElementById('notificationDropdown').classList.remove('show');
         });
 
         document.addEventListener('click', () => {
             document.getElementById('notificationDropdown').classList.remove('show');
-            document.getElementById('userDropdown').classList.remove('show');
+            userDropdown.classList.remove('show');
         });
+
+        signInForm.addEventListener('submit', handleSignIn);
+        signUpForm.addEventListener('submit', handleSignUp);
 
         // --- INTERSECTION OBSERVER FOR ANIMATIONS ---
         const observerOptions = {
@@ -1312,10 +2053,12 @@
 
         // --- INITIAL RENDER ---
         window.addEventListener('load', () => {
-            loadMovies();
+            loadInitialData();
             renderHero();
             renderCategories();
             filterAndRenderMovies();
+            renderNewReleases();
+            renderUserDropdown();
             startShuffleTimer();
 
             const sectionsToAnimate = document.querySelectorAll('.section');
@@ -1325,9 +2068,8 @@
             
             setTimeout(() => {
                 preloader.classList.add('fade-out');
-            }, 1500); // Keep preloader for at least 1.5 seconds
+            }, 1500);
         });
-
     </script>
 </body>
 </html>
